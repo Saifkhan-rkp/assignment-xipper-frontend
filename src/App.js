@@ -1,24 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { lazy, Suspense } from 'react';
+import Loader from './components/Loader';
+const OrderDetails = lazy(() => import('./components/OrderDetails'));
+const CustomerDetails = lazy(() => import('./components/CustomerDetails'));
+const CustomerTable = lazy(() => import('./components/CustomerTable'));
+const LayoutMain = lazy(() => import('./layouts/LayoutMain'));
+const OrderTable = lazy(() => import("./components/OrderTable"))
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <Suspense fallback={<Loader />} >
+          <Routes>
+            <Route
+              path='/'
+              element={<LayoutMain />}
+            >
+              <Route index element={<OrderTable />}></Route>
+              <Route path='customer' element={<CustomerTable />}></Route>
+              <Route path='customer/details' element={<CustomerDetails />}></Route>
+            </Route>
+            <Route path='order/details' element={<OrderDetails />} ></Route>
+          </Routes>
+
+        </Suspense>
+      </BrowserRouter>
+    </>
   );
 }
 
