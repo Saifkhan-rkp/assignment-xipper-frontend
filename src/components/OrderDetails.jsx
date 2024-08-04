@@ -24,7 +24,6 @@ function OrderDetails() {
         shipping_lines
     } = orderDetails || { };
 
-console.log(orderDetails)
     const addrSequence = ["name", "phone", "address1", "address2", "company", "city", "province", "country", "zip",]
     return (
         <>
