@@ -22,9 +22,9 @@ function App() {
             >
               <Route index element={<OrderTable />}></Route>
               <Route path='customer' element={<CustomerTable />}></Route>
-              <Route path='customer/details' element={<CustomerDetails />}></Route>
+              <Route path='customer/details/:id' element={<CustomerDetails />}></Route>
             </Route>
-            <Route path='order/details' element={<OrderDetails />} ></Route>
+            <Route path='order/details/:id' element={<OrderDetails />} ></Route>
           </Routes>
 
         </Suspense>

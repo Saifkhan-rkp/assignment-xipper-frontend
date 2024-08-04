@@ -76,7 +76,7 @@ function CustomerTable() {
                                             {new Date(customer?.created_at).toDateString()}
                                         </td>
 
-                                        <td className="whitespace-no-wrap text-center  py-4 text-sm font-normal text-gray-600 sm:px-3 lg:table-cell">{customer?.customer_id}</td>
+                                        <td className="whitespace-no-wrap text-center  py-4 text-sm font-normal text-gray-600 sm:px-3 lg:table-cell"><a href={`/customer/details/${customer?.customer_id}`}>{customer?.customer_id}</a></td>
 
                                         <td className="whitespace-no-wrap text-center py-4 text-sm font-normal text-gray-600 sm:px-3 lg:table-cell">{customer?.email}</td>
 

@@ -79,7 +79,7 @@ function OrderTable() {
                                             {new Date(order?.created_at).toDateString()}
                                         </td>
 
-                                        <td className="whitespace-no-wrap   py-4 text-sm font-normal text-gray-600 sm:px-3 lg:table-cell">{order?.order_id}</td>
+                                        <td className="whitespace-no-wrap   py-4 text-sm font-normal text-gray-600 sm:px-3 lg:table-cell"><a href={`/order/details/${order?.order_id}`}>{order?.order_id}</a></td>
 
                                         <td className="whitespace-no-wrap text-center py-4 text-sm font-normal text-gray-600 sm:px-3 lg:table-cell">{order?.order_number}</td>
 

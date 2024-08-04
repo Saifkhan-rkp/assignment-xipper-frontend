@@ -1,34 +1,44 @@
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import React from 'react'
+import { useParams } from 'react-router-dom';
 
-const customer = {
-    id: 706405506930370000,
-    email: 'bob@biller.com',
-    created_at: '2024-08-04T03:45:02+05:30',
-    updated_at: '2024-08-04T03:45:02+05:30',
-    first_name: 'Bob',
-    last_name: 'Biller',
-    orders_count: 0,
-    state: 'disabled',
-    total_spent: '0.00',
-    last_order_id: null,
-    note: 'This customer loves ice cream',
-    verified_email: true,
-    multipass_identifier: null,
-    tax_exempt: false,
-    tags: '',
-    last_order_name: null,
-    currency: 'INR',
-    phone: null,
-    addresses: [],
-    tax_exemptions: [],
-    email_marketing_consent: null,
-    sms_marketing_consent: null,
-    admin_graphql_api_id: 'gid://shopify/Customer/706405506930370084'
-  };
+// const customer = {
+//     id: 706405506930370000,
+//     email: 'bob@biller.com',
+//     created_at: '2024-08-04T03:45:02+05:30',
+//     updated_at: '2024-08-04T03:45:02+05:30',
+//     first_name: 'Bob',
+//     last_name: 'Biller',
+//     orders_count: 0,
+//     state: 'disabled',
+//     total_spent: '0.00',
+//     last_order_id: null,
+//     note: 'This customer loves ice cream',
+//     verified_email: true,
+//     multipass_identifier: null,
+//     tax_exempt: false,
+//     tags: '',
+//     last_order_name: null,
+//     currency: 'INR',
+//     phone: null,
+//     addresses: [],
+//     tax_exemptions: [],
+//     email_marketing_consent: null,
+//     sms_marketing_consent: null,
+//     admin_graphql_api_id: 'gid://shopify/Customer/706405506930370084'
+// };
 
 function CustomerDetails() {
+    const params = useParams();
+    // console.log(params)
+    const { data: customer, isLoading, isError, error } = useQuery({
+        queryKey: ["customer"],
+        queryFn: () => axios.get(`${process.env.REACT_APP_API_URL}/api/shopify/customer/${params.id}`).then(res => res.data)
+    });
 
-    
+    console.log(customer)
+
     return (
         <section className="self-stretch flex flex-col items-start justify-start gap-[24.3px] max-w-full text-left text-5xl text-gray-900 font-text-sm-leading-5-font-medium">
             <div className="self-stretch flex flex-row items-start justify-between gap-5 mq450:flex-wrap">
@@ -53,52 +63,60 @@ function CustomerDetails() {
                         <span class="tracking-wide">About</span>
                     </div>
                     <div className="text-gray-700">
-            <div className="grid grid-cols-2 text-sm">
-                <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">First Name</div>
-                    <div className="px-4 py-2">{customer.first_name}</div>
-                </div>
-                <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Last Name</div>
-                    <div className="px-4 py-2">{customer.last_name}</div>
-                </div>
-                <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Email</div>
-                    <div className="px-4 py-2">
-                        <a className="text-blue-800" href={`mailto:${customer.email}`}>{customer.email}</a>
+                        {!isLoading && customer &&
+                            <div className="grid grid-cols-2 text-sm">
+                                <div className="grid grid-cols-2">
+                                    <div className="px-4 py-2 font-semibold">First Name</div>
+                                    <div className="px-4 py-2">{customer.first_name}</div>
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="px-4 py-2 font-semibold">Last Name</div>
+                                    <div className="px-4 py-2">{customer.last_name}</div>
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="px-4 py-2 font-semibold">Email</div>
+                                    <div className="px-4 py-2">
+                                        <a className="text-blue-800" href={`mailto:${customer.email}`}>{customer.email}</a>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="px-4 py-2 font-semibold">Contact No.</div>
+                                    <div className="px-4 py-2">{customer.phone || 'N/A'}</div>
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="px-4 py-2 font-semibold">State</div>
+                                    <div className="px-4 py-2">{customer.state}</div>
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="px-4 py-2 font-semibold">Total Spent</div>
+                                    <div className="px-4 py-2">{customer.total_spent}</div>
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="px-4 py-2 font-semibold">Note</div>
+                                    <div className="px-4 py-2">{customer.note}</div>
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="px-4 py-2 font-semibold">Verified Email</div>
+                                    <div className="px-4 py-2">{customer.verified_email ? 'Yes' : 'No'}</div>
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="px-4 py-2 font-semibold">Tax Exempt</div>
+                                    <div className="px-4 py-2">{customer.tax_exempt ? 'Yes' : 'No'}</div>
+                                </div>
+                                <div className="grid grid-cols-2">
+                                    <div className="px-4 py-2 font-semibold">Currency</div>
+                                    <div className="px-4 py-2">{customer.currency}</div>
+                                </div>
+                            </div>
+                        }
+                        {isError &&
+                            <div className="grid grid-cols-2">
+                                <div className="px-4 py-2 font-semibold">*Error</div>
+                                <div className="px-4 py-2 text-red-600">{error?.name+"; "+error?.message}</div>
+                            </div>
+                        }
                     </div>
-                </div>
-                <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Contact No.</div>
-                    <div className="px-4 py-2">{customer.phone || 'N/A'}</div>
-                </div>
-                <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">State</div>
-                    <div className="px-4 py-2">{customer.state}</div>
-                </div>
-                <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Total Spent</div>
-                    <div className="px-4 py-2">{customer.total_spent}</div>
-                </div>
-                <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Note</div>
-                    <div className="px-4 py-2">{customer.note}</div>
-                </div>
-                <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Verified Email</div>
-                    <div className="px-4 py-2">{customer.verified_email ? 'Yes' : 'No'}</div>
-                </div>
-                <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Tax Exempt</div>
-                    <div className="px-4 py-2">{customer.tax_exempt ? 'Yes' : 'No'}</div>
-                </div>
-                <div className="grid grid-cols-2">
-                    <div className="px-4 py-2 font-semibold">Currency</div>
-                    <div className="px-4 py-2">{customer.currency}</div>
-                </div>
-            </div>
-        </div>
-                    
+
                 </div>
             </div>
         </section>
