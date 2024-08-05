@@ -3,6 +3,7 @@ import './App.css';
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from 'react';
 import Loader from './components/Loader';
+
 const OrderDetails = lazy(() => import('./components/OrderDetails'));
 const CustomerDetails = lazy(() => import('./components/CustomerDetails'));
 const CustomerTable = lazy(() => import('./components/CustomerTable'));
@@ -23,8 +24,8 @@ function App() {
               <Route index element={<OrderTable />}></Route>
               <Route path='customer' element={<CustomerTable />}></Route>
               <Route path='customer/details/:id' element={<CustomerDetails />}></Route>
+              <Route path='order/details/:id' element={<OrderDetails />} ></Route>
             </Route>
-            <Route path='order/details/:id' element={<OrderDetails />} ></Route>
           </Routes>
 
         </Suspense>

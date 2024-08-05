@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require("tailwindcss/plugin");
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -67,8 +70,63 @@ module.exports = {
       mq450: {
         raw: "screen and (max-width: 450px)",
       },
+      vsm: "320px",
+      mm: "375px",
+      lm: "425px",
+      xs: "400px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      lx: "1200px",
+      xl: "1280px",
+      "2xl": "1536px",
+      "3xl": "2000px",
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addComponents, theme }) {
+      const screens = theme("screens", {});
+      addComponents([
+        {
+          ".container": { width: "100%" },
+        },
+        {
+          [`@media (min-width: ${screens.sm})`]: {
+            ".container": {
+              "max-width": "640px",
+            },
+          },
+        },
+        {
+          [`@media (min-width: ${screens.md})`]: {
+            ".container": {
+              "max-width": "768px",
+            },
+          },
+        },
+        {
+          [`@media (min-width: ${screens.lg})`]: {
+            ".container": {
+              "max-width": "1024px",
+            },
+          },
+        },
+        {
+          [`@media (min-width: ${screens.xl})`]: {
+            ".container": {
+              "max-width": "1280px",
+            },
+          },
+        },
+        {
+          [`@media (min-width: ${screens["2xl"]})`]: {
+            ".container": {
+              "max-width": "1280px",
+            },
+          },
+        },
+      ]);
+    }),
+  ],
 }
 
